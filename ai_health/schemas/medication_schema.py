@@ -3,10 +3,10 @@ from pydantic import BaseModel, Field
 from uuid import UUID
 from typing import List, Optional
 
-from ai_health.root.utils.abstract_base import AbstractBase
+from ai_health.root.utils.base_models_abstract import AbstractModel
 
 
-class MedicationBase(AbstractBase):
+class MedicationBase(AbstractModel):
     patient_id: UUID
     name: str
     dosage: str
@@ -20,7 +20,7 @@ class MedicationCreate(MedicationBase):
     pass
 
 
-class MedicationUpdate(AbstractBase):
+class MedicationUpdate(AbstractModel):
     name: Optional[str]
     dosage: Optional[str]
     frequency: Optional[str]
@@ -31,9 +31,6 @@ class MedicationUpdate(AbstractBase):
 
 class Medication(MedicationBase):
     medication_id: UUID
-
-    class Config:
-        orm_mode = True
 
 
 class MedicationList(BaseModel):
