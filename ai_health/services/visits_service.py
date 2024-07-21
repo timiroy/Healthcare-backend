@@ -22,7 +22,7 @@ async def create_visit(visit_create: VisitCreate):
         LOGGER.exception(e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An unknown error occurred")
 
-    return Visit(**created_visit.model_dump())
+    return Visit.model_validate(created_visit)
 
 
 async def get_visit_by_id(visit_id: str):
@@ -36,19 +36,19 @@ async def get_visit_by_id(visit_id: str):
         LOGGER.exception(e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An unknown error occurred")
 
-    return Visit(**visit.model_dump())
+    return Visit.model_validate(visit)
 
 
 async def get_all_visits():
     try:
-        visits = await visits_db_handler.get_all_visits()
+        visits = await visits_db_handler.get_visits()
     except ServiceException as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
     except Exception as e:
         LOGGER.exception(e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An unknown error occurred")
 
-    return VisitList(visits=[Visit(**visit.model_dump()) for visit in visits])
+    return visits
 
 
 async def update_visit(visit_id: str, visit_update: VisitUpdate):
@@ -62,7 +62,7 @@ async def update_visit(visit_id: str, visit_update: VisitUpdate):
         LOGGER.exception(e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An unknown error occurred")
 
-    return Visit(**updated_visit.model_dump())
+    return Visit.model_validate(updated_visit)
 
 
 async def delete_visit(visit_id: str):

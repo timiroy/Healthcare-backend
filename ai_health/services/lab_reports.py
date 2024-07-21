@@ -36,7 +36,7 @@ async def get_lab_report_by_id(lab_report_id: str):
         LOGGER.exception(e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An unknown error occurred")
 
-    return LabReport(**lab_report.model_dump())
+    return LabReport.model_validate(lab_report)
 
 
 async def get_all_lab_reports():
@@ -48,7 +48,7 @@ async def get_all_lab_reports():
         LOGGER.exception(e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An unknown error occurred")
 
-    return LabReportList(lab_reports=[LabReport(**lab_report.model_dump()) for lab_report in lab_reports])
+    return lab_reports
 
 
 async def update_lab_report(lab_report_id: str, lab_report_update: LabReportUpdate):
@@ -62,7 +62,7 @@ async def update_lab_report(lab_report_id: str, lab_report_update: LabReportUpda
         LOGGER.exception(e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An unknown error occurred")
 
-    return LabReport(**updated_lab_report.model_dump())
+    return LabReport.model_validate(updated_lab_report)
 
 
 async def delete_lab_report(lab_report_id: str):

@@ -27,7 +27,7 @@ async def create_medication(medication_create: MedicationCreate):
 
 async def get_medication_by_id(medication_id: str):
     try:
-        medication = await medications_db_handler.get_medication_by_id(medication_id)
+        medication = await medications_db_handler.get_medication(medication_id)
     except NotFoundException as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except ServiceException as e:
@@ -39,16 +39,16 @@ async def get_medication_by_id(medication_id: str):
     return Medication(**medication.model_dump())
 
 
-async def get_all_medications():
+async def get_all_medications(patient_id: str = None, doctor_id: str = None):
     try:
-        medications = await medications_db_handler.get_all_medications()
+        medications = await medications_db_handler.get_medications(patient_id=patient_id, doctor_id=doctor_id)
     except ServiceException as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
     except Exception as e:
         LOGGER.exception(e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An unknown error occurred")
 
-    return MedicationList(medications=[Medication(**medication.model_dump()) for medication in medications])
+    return medications
 
 
 async def update_medication(medication_id: str, medication_update: MedicationUpdate):

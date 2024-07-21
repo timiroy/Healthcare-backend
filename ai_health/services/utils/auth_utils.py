@@ -134,7 +134,6 @@ def create_refresh_token(data: dict):
     expiry_date = timedelta(seconds=REFRESH_TOKEN_EXPIRY) + datetime.utcnow()
     data.update({"exp": expiry_date})
 
-
     token = jwt.encode(data, settings.REFRESH_TOKEN_SECRET, algorithm=ENCODE_ALGORITHM, json_encoder=UUIDEncoder)
     return token
 
@@ -284,7 +283,6 @@ async def _get_user_from_user_id(user_id: str):
     An abstraction over the get_user_from_userid of the auth_db_handler
 
     Gets the user details from the db and populates needed fields for the user
-    An example is the company details if the user_type is a founder
     """
     try:
         user_extended = await auth_db_handler.get_user_with_user_id(user_id=user_id)
@@ -292,10 +290,6 @@ async def _get_user_from_user_id(user_id: str):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
     user = User(**user_extended.model_dump())
-
-    if user.user_type == UserType.founder:
-        # Fetch company details and add it here
-        pass
 
     return user
 
@@ -305,7 +299,6 @@ async def _get_user_from_email(email: str):
     An abstraction over the get_user_from_email of the auth_db_handler
 
     Gets the user details from the db and populates needed fields for the user
-    An example is the company details if the user_type is a founder
     """
 
     user_extended = await auth_db_handler.get_user_with_email(email=email)

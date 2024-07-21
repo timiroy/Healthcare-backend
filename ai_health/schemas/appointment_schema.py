@@ -10,7 +10,9 @@ class AppointmentBase(AbstractModel):
     patient_id: UUID
     doctor_id: UUID
     appointment_date: datetime
-    reason: str
+    reason_for_appointment: str
+    status: str
+    next_appointment_date: datetime
 
 
 class AppointmentCreate(AppointmentBase):
@@ -27,7 +29,11 @@ class Appointment(AppointmentBase):
     appointment_id: UUID
 
 
-
 class AppointmentList(BaseModel):
     detail: str
     appointments: List[Appointment]
+
+
+class AppointmentFilter(BaseModel):
+    doctor_id: Optional[UUID] = None
+    patient_id: Optional[UUID] = None

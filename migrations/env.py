@@ -5,6 +5,11 @@ from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
+from ai_health.database.orms.auth_orm import User
+from ai_health.database.orms.doctor_orm import Doctor   
+from ai_health.database.orms.medication_n_dosage_orm import Medication, Appointment, LabReport, MedicalHistory
+from ai_health.database.orms.visits_orm import Visit
+
 from alembic import context
 
 from ai_health.root.utils.abstract_base import AbstractBase

@@ -10,8 +10,7 @@ class MedicalHistoryBase(AbstractModel):
     patient_id: UUID
     condition: str
     diagnosis_date: datetime
-    treatment: str
-    outcome: str
+    notes: str
 
 
 class MedicalHistoryCreate(MedicalHistoryBase):
@@ -22,8 +21,7 @@ class MedicalHistoryUpdate(AbstractModel):
     patient_id: Optional[UUID] = None
     condition: Optional[str] = None
     diagnosis_date: Optional[datetime] = None
-    treatment: Optional[str] = None
-    outcome: Optional[str] = None
+    notes: Optional[str] = None
 
 
 class MedicalHistory(MedicalHistoryBase):

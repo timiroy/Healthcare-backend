@@ -13,8 +13,7 @@ from ai_health.root.utils.abstract_base import AbstractBase
 class Visit(AbstractBase):
     __tablename__ = "visits"
     visit_id = Column(UUID(as_uuid=True), primary_key=True, unique=True, nullable=False, default=uuid.uuid4)
-    patient_id: Mapped[int]
-    visit_date: Mapped[datetime] = mapped_column(DateTime)
+    visit_date: Mapped[datetime] = mapped_column(DateTime(timezone=True))
 
     reason_for_visit: Mapped[str]
     notes: Mapped[str]

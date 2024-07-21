@@ -39,9 +39,9 @@ async def get_appointment_by_id(appointment_id: str):
     return Appointment(**appointment.model_dump())
 
 
-async def get_all_appointments():
+async def get_all_appointments(patient_id: str = None, doctor_id: str = None):
     try:
-        appointments = await appointments_db_handler.get_appointments()
+        appointments = await appointments_db_handler.get_appointments(patient_id=patient_id, doctor_id=doctor_id)
     except ServiceException as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
     except Exception as e:

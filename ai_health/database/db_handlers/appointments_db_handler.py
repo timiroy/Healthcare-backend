@@ -23,11 +23,9 @@ async def create_appointment(appointment: AppointmentCreate):
         try:
             result = (await session.execute(statement=stmt)).scalar_one_or_none()
         except IntegrityError as e:
-            LOGGER.error(f"Duplicate record found for appointment_id {appointment.appointment_id}")
+            LOGGER.error(f"Duplicate record or record  not found")
             await session.rollback()
-            raise RecordExistsException(
-                message=f"Duplicate record found for appointment_id {appointment.appointment_id}"
-            )
+            raise RecordExistsException(message=f"Duplicate record or record  not found")
         except Exception as e:
             LOGGER.exception(e)
             LOGGER.error("An unknown error occurred")

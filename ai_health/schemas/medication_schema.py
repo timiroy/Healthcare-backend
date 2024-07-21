@@ -8,12 +8,11 @@ from ai_health.root.utils.base_models_abstract import AbstractModel
 
 class MedicationBase(AbstractModel):
     patient_id: UUID
-    name: str
+    medication_name: str
     dosage: str
-    frequency: str
     start_date: datetime
     end_date: datetime
-    prescribed_by: UUID
+    doctor_id: UUID
 
 
 class MedicationCreate(MedicationBase):
@@ -23,7 +22,6 @@ class MedicationCreate(MedicationBase):
 class MedicationUpdate(AbstractModel):
     name: Optional[str]
     dosage: Optional[str]
-    frequency: Optional[str]
     start_date: Optional[datetime]
     end_date: Optional[datetime]
     prescribed_by: Optional[UUID]
@@ -36,3 +34,7 @@ class Medication(MedicationBase):
 class MedicationList(BaseModel):
     detail: str
     medications: List[Medication]
+
+class MedicationFilter(BaseModel):
+    doctor_id: Optional[UUID] = None
+    patient_id: Optional[UUID] = None

@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional
 import uuid
 
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import Column, DateTime, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID
 
@@ -15,8 +15,8 @@ class Medication(AbstractBase):
     medication_id = Column(UUID(as_uuid=True), primary_key=True, unique=True, nullable=False, default=uuid.uuid4)
     medication_name: Mapped[str]
     dosage: Mapped[str]
-    start_date: Mapped[datetime]
-    end_date: Mapped[datetime]
+    start_date: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    end_date: Mapped[datetime] = mapped_column(DateTime(timezone=True))
 
     patient_id = mapped_column(ForeignKey("users.user_id", ondelete="CASCADE"))
     patient = relationship("User", back_populates="medications")
@@ -29,10 +29,10 @@ class Appointment(AbstractBase):
     __tablename__ = "appointments"
     appointment_id = Column(UUID(as_uuid=True), primary_key=True, unique=True, nullable=False, default=uuid.uuid4)
 
-    appointment_date: Mapped[datetime]
+    appointment_date: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     reason_for_appointment: Mapped[str]
     status: Mapped[str]
-    next_appointment_date: Mapped[datetime]
+    next_appointment_date: Mapped[datetime] = mapped_column(DateTime(timezone=True))
 
     patient_id: Mapped[UUID] = mapped_column(ForeignKey("users.user_id", ondelete="CASCADE"))
     patient = relationship("User", back_populates="appointments")
@@ -45,7 +45,7 @@ class LabReport(AbstractBase):
     __tablename__ = "labreports"
     report_id = Column(UUID(as_uuid=True), primary_key=True, unique=True, nullable=False, default=uuid.uuid4)
     test_name: Mapped[str]
-    test_date: Mapped[datetime]
+    test_date: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     result: Mapped[str]
     notes: Mapped[str]
 
@@ -57,7 +57,7 @@ class MedicalHistory(AbstractBase):
     __tablename__ = "medical_history"
     history_id = Column(UUID(as_uuid=True), primary_key=True, unique=True, nullable=False, default=uuid.uuid4)
     condition: Mapped[str]
-    diagnosis_date: Mapped[datetime]
+    diagnosis_date: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     notes: Mapped[str]
 
     patient_id: Mapped[UUID] = mapped_column(ForeignKey("users.user_id", ondelete="CASCADE"))

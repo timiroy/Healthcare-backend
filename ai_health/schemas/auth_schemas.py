@@ -9,10 +9,8 @@ from ai_health.root.utils.base_models_abstract import AbstractModel
 
 
 class UserType(StrEnum):
-    founder = "FOUNDER"
-    investor = "INVESTOR"
-    job_seeker = "JOB_SEEKER"
-    admin = "ADMIN"
+    PATIENT = "PATIENT"
+    ADMIN = "ADMIN"
 
 
 class UserBase(AbstractModel):
@@ -22,6 +20,9 @@ class UserBase(AbstractModel):
     phone_number: str
     email: EmailStr
     profile_image: str | None = None
+    date_of_birth: datetime
+    gender: str
+    address: str
 
 
 class Login(AbstractModel):
@@ -55,7 +56,6 @@ class UserCreate(UserBase):
 class UserExtended(UserCreate):
     date_updated: datetime
     user_id: UUID
-
 
 
 class UserEditBase(AbstractModel):

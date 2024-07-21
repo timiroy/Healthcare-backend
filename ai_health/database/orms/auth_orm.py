@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional
 import uuid
 
-from sqlalchemy import Column
+from sqlalchemy import Column, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID
 
@@ -27,7 +27,7 @@ class User(AbstractBase):
     user_type: Mapped[str]
     profile_image: Mapped[Optional[str]]
     is_verified: Mapped[bool] = mapped_column(default=False)
-    date_of_birth: Mapped[Optional[datetime]]
+    date_of_birth: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
     gender: Mapped[str]
     address: Mapped[str]
 

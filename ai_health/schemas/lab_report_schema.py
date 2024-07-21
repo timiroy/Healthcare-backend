@@ -8,7 +8,7 @@ from ai_health.root.utils.base_models_abstract import AbstractModel
 
 class LabReportBase(AbstractModel):
     patient_id: UUID
-    report_name: str
+    test_name: str
     test_date: datetime
     result: str
     notes: str
@@ -28,7 +28,6 @@ class LabReportUpdate(AbstractModel):
 
 class LabReport(LabReportBase):
     report_id: UUID
-
 
 
 class LabReportList(BaseModel):

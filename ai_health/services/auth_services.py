@@ -61,18 +61,18 @@ async def signup(signup_user: SignUpUser) -> Token:
     redis_manager.cache_json_item(key=key, value=data)
 
     # Send the email to the client
-    payload = {
-        "info": "You have been invited to try out ai_health",
-        "more_info": f"Your verification code is {otp}",
-        "action_text": "Go",
-        "link": "https://ai_health.com",
-    }
-    job_runner.background_mailer(
-        reciepients=[signup_user.email],
-        subject="Please conform your account for ai_health",
-        payload=payload,
-        template="auth/info_email_template.html",
-    )
+    # payload = {
+    #     "info": "You have been invited to try out ai_health",
+    #     "more_info": f"Your verification code is {otp}",
+    #     "action_text": "Go",
+    #     "link": "https://ai_health.com",
+    # }
+    # job_runner.background_mailer(
+    #     reciepients=[signup_user.email],
+    #     subject="Please conform your account for ai_health",
+    #     payload=payload,
+    #     template="auth/info_email_template.html",
+    # )
 
     token_data = auth_utils.get_token_data_from_data(data={"user_id": user.user_id})
 
@@ -150,12 +150,12 @@ async def resend_verification_otp(user_email: str) -> ResponseInfo:
         "action_text": "Go",
         "link": "https://ai_health.com",
     }
-    job_runner.background_mailer(
-        reciepients=[user_email],
-        subject="Please conform your account for ai_health",
-        payload=payload,
-        template="auth/info_email_template.html",
-    )
+    # job_runner.background_mailer(
+    #     reciepients=[user_email],
+    #     subject="Please conform your account for ai_health",
+    #     payload=payload,
+    #     template="auth/info_email_template.html",
+    # )
 
     return ResponseInfo(details="Verification code sent!")
 
@@ -240,12 +240,12 @@ async def request_forgot_password_link(user_email: str):
         "action_text": "Reset Password",
         "link": f"https://ai_health.com/reset_password/{unique_token}",
     }
-    job_runner.background_mailer(
-        reciepients=[user_email],
-        subject="Please conform your account for ai_health",
-        payload=payload,
-        template="auth/info_email_template.html",
-    )
+    # job_runner.background_mailer(
+    #     reciepients=[user_email],
+    #     subject="Please conform your account for ai_health",
+    #     payload=payload,
+    #     template="auth/info_email_template.html",
+    # )
 
     return ResponseInfo(details=f"Forgot password link send to {user_email} if it exists")
 

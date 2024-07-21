@@ -13,25 +13,27 @@ lab_report_router = APIRouter(prefix="/lab_reports", tags=["Lab Report Managemen
 
 
 @lab_report_router.post("/", response_model=LabReport)
-async def create_lab_report(lab_report_create: LabReportCreate):
+async def create_lab_report(lab_report_create: LabReportCreate, user: User = Depends(get_current_user)):
     return await lab_reports.create_lab_report(lab_report_create)
 
 
 @lab_report_router.get("/{lab_report_id}", response_model=LabReport)
-async def get_lab_report(lab_report_id: str):
+async def get_lab_report(lab_report_id: str, user: User = Depends(get_current_user)):
     return await lab_reports.get_lab_report_by_id(lab_report_id)
 
 
 @lab_report_router.get("/", response_model=LabReportList)
-async def get_all_lab_reports():
+async def get_all_lab_reports(user: User = Depends(get_current_user)):
     return await lab_reports.get_all_lab_reports()
 
 
 @lab_report_router.patch("/{lab_report_id}", response_model=LabReport)
-async def update_lab_report(lab_report_id: str, lab_report_update: LabReportUpdate):
+async def update_lab_report(
+    lab_report_id: str, lab_report_update: LabReportUpdate, user: User = Depends(get_current_user)
+):
     return await lab_reports.update_lab_report(lab_report_id, lab_report_update)
 
 
 @lab_report_router.delete("/{lab_report_id}")
-async def delete_lab_report(lab_report_id: str):
+async def delete_lab_report(lab_report_id: str, user: User = Depends(get_current_user)):
     return await lab_reports.delete_lab_report(lab_report_id)
