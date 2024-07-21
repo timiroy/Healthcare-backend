@@ -33,3 +33,7 @@ class LabReport(LabReportBase):
 class LabReportList(BaseModel):
     detail: str
     lab_reports: List[LabReport]
+
+
+class LabReportFilter(BaseModel):
+    patient_id: Optional[UUID] = None

@@ -6,6 +6,11 @@ from uuid import UUID
 from pydantic import BaseModel, EmailStr
 
 from ai_health.root.utils.base_models_abstract import AbstractModel
+from ai_health.schemas.appointment_schema import Appointment, AppointmentWithDoctor
+from ai_health.schemas.lab_report_schema import LabReport
+from ai_health.schemas.medical_history_schema import MedicalHistory
+from ai_health.schemas.medication_schema import Medication, MedicationWithDoctor
+from ai_health.schemas.visits_schema import Visit, VisitWithDoctor
 
 
 class UserType(StrEnum):
@@ -83,3 +88,10 @@ class VerifyRestPasswordToken(AbstractModel):
 class ResetPassword(AbstractModel):
     password: str
     token: str
+
+class UserWithAllRelations(User):
+    visits: list["VisitWithDoctor"]
+    medications: list["MedicationWithDoctor"]
+    appointments: list["AppointmentWithDoctor"]
+    lab_reports: list["LabReport"]
+    medical_history: list["MedicalHistory"]

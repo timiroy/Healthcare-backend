@@ -307,3 +307,19 @@ async def reset_password(reset_password: ResetPassword):
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An unknown error occurred")
 
     return ResponseInfo(details="Password reset successfully!")
+
+async def get_complete_user_details_by_id(user_id: str) -> User:
+    """
+    Get a user by id
+    """
+    try:
+        user = await auth_db_handler.get_user_with_id_and_relations(user_id=user_id)
+    except NotFoundException as e:
+        print(e)
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An unknown error occurred")
+
+    return user

@@ -9,6 +9,7 @@ from ai_health.schemas.auth_schemas import (
     User,
     UserEdit,
     UserEditBase,
+    UserWithAllRelations,
     VerifyRestPasswordToken,
 )
 from ai_health.schemas.response_info_schema import ResponseInfo
@@ -44,9 +45,9 @@ async def resend_verification_otp(email: str = Body(embed=True)):
     return await auth_services.resend_verification_otp(user_email=email)
 
 
-@auth_router.get("/me", response_model=User)
+@auth_router.get("/me", response_model=UserWithAllRelations)
 async def me(user: User = Depends(auth_utils.get_current_user)):
-    return user
+    return await auth_services.get_complete_user_details_by_id(user_id=user.user_id)
 
 
 @auth_router.post("/refresh-token", response_model=Token)

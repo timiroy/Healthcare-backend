@@ -1,11 +1,14 @@
 import logging
 from sqlalchemy import insert, select, delete, update
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import joinedload
 
-from ai_health.schemas.auth_schemas import User, UserCreate, UserEdit, UserExtended
+from ai_health.schemas.auth_schemas import User, UserCreate, UserEdit, UserExtended, UserWithAllRelations
 from ai_health.root.database import async_session
 
 from ai_health.database.orms.auth_orm import User as UserDB
+from ai_health.database.orms.visits_orm import Visit as VisitDB
+from ai_health.database.orms.medication_n_dosage_orm import Medication as MedicationDB, Appointment as AppointmentDB
 from ai_health.services.utils.exceptions import NotFoundException, RecordExistsException, ServiceException
 
 
@@ -109,3 +112,30 @@ async def get_user_with_user_id(user_id: str):
             raise NotFoundException(message=f"Couldnt find user with user_id {user_id}")
 
         return UserExtended.model_validate(result)
+
+
+async def get_user_with_id_and_relations(user_id: str):
+    async with async_session() as session:
+
+        stmt = (
+            select(UserDB)
+            .filter(UserDB.user_id == user_id)
+            .options(
+                joinedload(UserDB.medical_history),
+                joinedload(UserDB.lab_reports),
+                joinedload(UserDB.visits).options(
+                    joinedload(VisitDB.doctor),
+                ),
+                joinedload(UserDB.appointments).options(
+                    joinedload(AppointmentDB.doctor),
+                ),
+                joinedload(UserDB.medications),
+            )
+        )
+
+        result = (await session.execute(statement=stmt)).unique().scalar_one_or_none()
+
+        if result is None:
+            raise NotFoundException(message=f"Couldnt find user with user_id {user_id}")
+
+        return UserWithAllRelations.model_validate(result)

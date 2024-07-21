@@ -4,6 +4,7 @@ from uuid import UUID
 from typing import List, Optional
 
 from ai_health.root.utils.base_models_abstract import AbstractModel
+from ai_health.schemas.doctor_schema import Doctor
 
 
 class VisitBase(AbstractModel):
@@ -37,3 +38,6 @@ class Visit(VisitBase):
 class VisitList(BaseModel):
     detail: str
     visits: List[Visit]
+
+class VisitWithDoctor(Visit):
+    doctor: Doctor

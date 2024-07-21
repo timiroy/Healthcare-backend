@@ -4,6 +4,7 @@ from uuid import UUID
 from typing import List, Optional
 
 from ai_health.root.utils.base_models_abstract import AbstractModel
+from ai_health.schemas.doctor_schema import Doctor
 
 
 class MedicationBase(AbstractModel):
@@ -38,3 +39,7 @@ class MedicationList(BaseModel):
 class MedicationFilter(BaseModel):
     doctor_id: Optional[UUID] = None
     patient_id: Optional[UUID] = None
+
+class MedicationWithDoctor(Medication):
+    doctor: Doctor
+
