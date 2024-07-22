@@ -62,7 +62,7 @@ async def get_medications(**kwargs):
         if patient_id:
             filter_conditions.append(MedicationDB.patient_id == patient_id)
         if doctor_id:
-            filter_conditions.append(MedicationDB.prescribed_by == doctor_id)
+            filter_conditions.append(MedicationDB.doctor_id == doctor_id)
 
         stmt = select(MedicationDB).filter(and_(*filter_conditions)).order_by(MedicationDB.start_date.desc())
 

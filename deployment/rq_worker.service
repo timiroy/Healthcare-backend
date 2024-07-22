@@ -3,8 +3,8 @@ Description=rq worker
 After=network.target
 
 [Service]
-User=ai_health-user
-Group=ai_health
+User=ubuntu
+Group=sudo
 WorkingDirectory=/home/ubuntu/srv/ai_health_backend
 Environment="PATH=/home/ubuntu/srv/ai_health_backend/venv/bin"
 EnvironmentFile=/home/ubuntu/srv/ai_health_backend/.env

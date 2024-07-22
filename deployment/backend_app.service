@@ -3,12 +3,12 @@ Description=ai_health app server
 After=network.target
 
 [Service]
-User=ai_health-user
-Group=ai_health
+User=ubuntu
+Group=sudo
 WorkingDirectory=/home/ubuntu/srv/ai_health_backend
 Environment="PATH=/home/ubuntu/srv/ai_health_backend/venv/bin"
 EnvironmentFile=/home/ubuntu/srv/ai_health_backend/.env
-ExecStart=/home/ubuntu/srv/ai_health_backend/venv/bin/gunicorn -w 4 -k uvicorn.workers.UvicornWorker ai_health.root.app:app  --bind 0.0.0.0:9000
+ExecStart=/home/ubuntu/srv/ai_health_backend/venv/bin/gunicorn -w 2 -k uvicorn.workers.UvicornWorker ai_health.root.app:app  --bind 0.0.0.0:9000
 Restart=always
 RestartSec=10
 

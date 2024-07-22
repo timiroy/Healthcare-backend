@@ -25,8 +25,8 @@ migrate:
 make_migrations:
 	python make_db_migrations.py
 
-ssh_server:
-	ssh -i "deployment/ai_health_dev.pem" ubuntu@ec2-35-178-213-221.eu-west-2.compute.amazonaws.com
+ssh:
+	ssh -i "deployment/ai_health.pem" ubuntu@ec2-13-48-48-198.eu-north-1.compute.amazonaws.com
 
 
 update_app:
@@ -34,3 +34,4 @@ update_app:
 	pip install -r requirements.txt 
 	alembic upgrade head
 	sudo systemctl restart backend_app.service;
+	sudo systemctl restart rq.service;
