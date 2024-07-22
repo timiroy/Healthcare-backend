@@ -1,6 +1,7 @@
 import logging
 from sqlalchemy import and_, insert, update, delete, select
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import joinedload
 
 from ai_health.database.orms.medication_n_dosage_orm import Appointment as AppointmentDB
 from ai_health.schemas.appointment_schema import (
@@ -8,6 +9,7 @@ from ai_health.schemas.appointment_schema import (
     AppointmentCreate,
     AppointmentList,
     AppointmentUpdate,
+    AppointmentWithDoctor,
 )
 from ai_health.root.database import async_session
 from ai_health.services.utils.exceptions import NotFoundException, RecordExistsException, ServiceException
@@ -64,14 +66,23 @@ async def get_appointments(**kwargs):
         if doctor_id:
             filter_conditions.append(AppointmentDB.doctor_id == doctor_id)
 
-        stmt = select(AppointmentDB).filter(and_(*filter_conditions)).order_by(AppointmentDB.appointment_date.desc())
+        stmt = (
+            select(AppointmentDB)
+            .filter(and_(*filter_conditions))
+            .order_by(AppointmentDB.appointment_date.desc())
+            .options(
+                joinedload(
+                    AppointmentDB.doctor,
+                )
+            )
+        )
 
         result = (await session.execute(statement=stmt)).unique().scalars().all()
 
         result_set = []
 
         for x in result:
-            result_set.append(Appointment.model_validate(x))
+            result_set.append(AppointmentWithDoctor.model_validate(x))
 
         return AppointmentList(detail="Appointments retrieved", appointments=result_set)
 

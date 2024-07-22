@@ -30,16 +30,15 @@ class Appointment(AppointmentBase):
     appointment_id: UUID
 
 
-class AppointmentList(BaseModel):
-    detail: str
-    appointments: List[Appointment]
-
-
 class AppointmentFilter(BaseModel):
     doctor_id: Optional[UUID] = None
     patient_id: Optional[UUID] = None
+
 
 class AppointmentWithDoctor(Appointment):
     doctor: Doctor
 
 
+class AppointmentList(BaseModel):
+    detail: str
+    appointments: List[AppointmentWithDoctor]
