@@ -23,9 +23,9 @@ async def create_medical_history(medical_history: MedicalHistoryCreate):
         try:
             result = (await session.execute(statement=stmt)).scalar_one_or_none()
         except IntegrityError as e:
-            LOGGER.error(f"Duplicate record found for history_id {medical_history.history_id}")
+            LOGGER.error(f"Duplicate record found for histore")
             await session.rollback()
-            raise RecordExistsException(message=f"Duplicate record found for history_id {medical_history.history_id}")
+            raise RecordExistsException(message=f"{e.detail}")
         except Exception as e:
             LOGGER.exception(e)
             LOGGER.error("An unknown error occurred")
@@ -33,9 +33,9 @@ async def create_medical_history(medical_history: MedicalHistoryCreate):
             raise ServiceException(message="An unknown error occurred")
 
         if result is None:
-            LOGGER.error(f"Couldn't create record for history_id {medical_history.history_id}")
+            LOGGER.error(f"Couldn't create record for history")
             await session.rollback()
-            raise ServiceException(message=f"Couldn't create record for history_id {medical_history.history_id}")
+            raise ServiceException(message=f"Couldn't create record for history")
 
         await session.commit()
         return MedicalHistory.model_validate(result)

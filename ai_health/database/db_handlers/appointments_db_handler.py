@@ -27,7 +27,7 @@ async def create_appointment(appointment: AppointmentCreate):
         except IntegrityError as e:
             LOGGER.error(f"Duplicate record or record  not found")
             await session.rollback()
-            raise RecordExistsException(message=f"Duplicate record or record  not found")
+            raise RecordExistsException(message=f"{e.detail}")
         except Exception as e:
             LOGGER.exception(e)
             LOGGER.error("An unknown error occurred")
@@ -35,9 +35,9 @@ async def create_appointment(appointment: AppointmentCreate):
             raise ServiceException(message="An unknown error occurred")
 
         if result is None:
-            LOGGER.error(f"Couldn't create record for appointment_id {appointment.appointment_id}")
+            LOGGER.error(f"Couldn't create record")
             await session.rollback()
-            raise ServiceException(message=f"Couldn't create record for appointment_id {appointment.appointment_id}")
+            raise ServiceException(message=f"Couldn't create record")
 
         await session.commit()
         return Appointment.model_validate(result)

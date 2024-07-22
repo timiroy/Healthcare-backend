@@ -23,9 +23,9 @@ async def create_medication(medication: MedicationCreate):
         try:
             result = (await session.execute(statement=stmt)).scalar_one_or_none()
         except IntegrityError as e:
-            LOGGER.error(f"Duplicate record found for medication_id {medication.medication_id}")
+            LOGGER.error(f"Error with Data sent")
             await session.rollback()
-            raise RecordExistsException(message=f"Duplicate record found for medication_id {medication.medication_id}")
+            raise RecordExistsException(message=f"{e.detail}")
         except Exception as e:
             LOGGER.exception(e)
             LOGGER.error("An unknown error occurred")
@@ -33,9 +33,9 @@ async def create_medication(medication: MedicationCreate):
             raise ServiceException(message="An unknown error occurred")
 
         if result is None:
-            LOGGER.error(f"Couldn't create record for medication_id {medication.medication_id}")
+            # LOGGER.error(f"Couldn't create record for medication_id {medication.medication_id}")
             await session.rollback()
-            raise ServiceException(message=f"Couldn't create record for medication_id {medication.medication_id}")
+            raise ServiceException(message=f"Couldn't create record")
 
         await session.commit()
         return Medication.model_validate(result)

@@ -20,7 +20,7 @@ async def create_doctor(doctor_create: DoctorCreate):
         except IntegrityError as e:
             LOGGER.error(f"Duplicate record found for doctor {doctor_create.email}")
             await session.rollback()
-            raise RecordExistsException(message=f"Duplicate record found for doctor {doctor_create.email}")
+            raise RecordExistsException(message=f"{e.detail}")
         except Exception as e:
             LOGGER.exception(e)
             LOGGER.error(f"An unknown error occurred")

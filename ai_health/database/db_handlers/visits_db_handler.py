@@ -23,9 +23,9 @@ async def create_visit(visit: VisitCreate):
         try:
             result = (await session.execute(statement=stmt)).scalar_one_or_none()
         except IntegrityError as e:
-            LOGGER.error(f"Duplicate record found for visit_id {visit.visit_id}")
+            LOGGER.error(f"Duplicate record found for visits")
             await session.rollback()
-            raise RecordExistsException(message=f"Duplicate record found for visit_id {visit.visit_id}")
+            raise RecordExistsException(message=f"{e.detail}")
         except Exception as e:
             LOGGER.exception(e)
             LOGGER.error("An unknown error occurred")
@@ -33,9 +33,9 @@ async def create_visit(visit: VisitCreate):
             raise ServiceException(message="An unknown error occurred")
 
         if result is None:
-            LOGGER.error(f"Couldn't create record for visit_id {visit.visit_id}")
+            LOGGER.error(f"Couldn't create record for visit")
             await session.rollback()
-            raise ServiceException(message=f"Couldn't create record for visit_id {visit.visit_id}")
+            raise ServiceException(message=f"Couldn't create record for visit")
 
         await session.commit()
         return Visit.model_validate(result)

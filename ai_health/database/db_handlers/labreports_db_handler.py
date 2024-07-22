@@ -23,9 +23,9 @@ async def create_lab_report(lab_report: LabReportCreate):
         try:
             result = (await session.execute(statement=stmt)).scalar_one_or_none()
         except IntegrityError as e:
-            LOGGER.error(f"Duplicate record found for report_id {lab_report.report_id}")
+            LOGGER.error(f"Duplicate record found for report")
             await session.rollback()
-            raise RecordExistsException(message=f"Duplicate record found for report_id {lab_report.report_id}")
+            raise RecordExistsException(message=f"{e.detail}")
         except Exception as e:
             LOGGER.exception(e)
             LOGGER.error("An unknown error occurred")
@@ -33,9 +33,9 @@ async def create_lab_report(lab_report: LabReportCreate):
             raise ServiceException(message="An unknown error occurred")
 
         if result is None:
-            LOGGER.error(f"Couldn't create record for report_id {lab_report.report_id}")
+            LOGGER.error(f"Couldn't create record ")
             await session.rollback()
-            raise ServiceException(message=f"Couldn't create record for report_id {lab_report.report_id}")
+            raise ServiceException(message=f"Couldn't create record")
 
         await session.commit()
         return LabReport.model_validate(result)

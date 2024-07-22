@@ -30,8 +30,8 @@ ssh:
 
 
 update_app:
-	git pull origin dev	
+	git pull origin main	
 	pip install -r requirements.txt 
 	alembic upgrade head
-	sudo systemctl restart backend_app.service;
+	sudo systemctl restart backend.service;
 	sudo systemctl restart rq.service;
