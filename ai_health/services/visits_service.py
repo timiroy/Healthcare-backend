@@ -27,7 +27,7 @@ async def create_visit(visit_create: VisitCreate):
 
 async def get_visit_by_id(visit_id: str):
     try:
-        visit = await visits_db_handler.get_visit_by_id(visit_id)
+        visit = await visits_db_handler.get_visit(visit_id)
     except NotFoundException as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except ServiceException as e:

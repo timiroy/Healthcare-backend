@@ -13,7 +13,7 @@ async def create_medication(medication_create: MedicationCreate):
     try:
         created_medication = await medications_db_handler.create_medication(medication_create)
     except RecordExistsException as e:
-        LOGGER.error(f"Duplicate record found for medication {medication_create.name}")
+        LOGGER.error(f"Duplicate record found for medication ")
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     except ServiceException as e:
         LOGGER.exception(e)

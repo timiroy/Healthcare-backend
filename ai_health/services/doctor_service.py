@@ -27,7 +27,7 @@ async def create_doctor(doctor_create: DoctorCreate) -> Doctor:
 
 async def get_doctor(doctor_id: UUID) -> Doctor:
     try:
-        doctor_in_db = await doctor_db_handler.get_doctor(doctor_id)
+        doctor_in_db = await doctor_db_handler.get_doctor_by_id(doctor_id)
         if not doctor_in_db:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Doctor not found")
     except ServiceException as e:
