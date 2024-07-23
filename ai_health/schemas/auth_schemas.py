@@ -7,6 +7,7 @@ from pydantic import BaseModel, EmailStr
 
 from ai_health.root.utils.base_models_abstract import AbstractModel
 from ai_health.schemas.appointment_schema import Appointment, AppointmentWithDoctor
+from ai_health.schemas.billings_schema import Billing
 from ai_health.schemas.lab_report_schema import LabReport
 from ai_health.schemas.medical_history_schema import MedicalHistory
 from ai_health.schemas.medication_schema import Medication, MedicationWithDoctor
@@ -95,3 +96,4 @@ class UserWithAllRelations(User):
     appointments: list["AppointmentWithDoctor"]
     lab_reports: list["LabReport"]
     medical_history: list["MedicalHistory"]
+    billings: list["Billing"]

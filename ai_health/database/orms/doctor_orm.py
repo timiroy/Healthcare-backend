@@ -21,3 +21,4 @@ class Doctor(AbstractBase):
     visits = relationship("Visit", back_populates="doctor")
     medications = relationship("Medication", back_populates="doctor")
     appointments = relationship("Appointment", back_populates="doctor")
+    billings = relationship("Billing", back_populates="doctor")

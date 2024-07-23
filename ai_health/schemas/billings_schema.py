@@ -3,6 +3,7 @@ from uuid import UUID
 from typing import Optional
 import enum
 
+from ai_health.root.utils.base_models_abstract import AbstractModel
 from ai_health.schemas.doctor_schema import Doctor
 
 class BillingStatus(str, enum.Enum):
@@ -10,7 +11,7 @@ class BillingStatus(str, enum.Enum):
     PAID = "PAID"
     NOT_PAID = "NOT_PAID"
 
-class BillingBase(BaseModel):
+class BillingBase(AbstractModel):
     title: str
     status: BillingStatus
     amount: float
@@ -31,3 +32,7 @@ class Billing(BillingBase):
 
 class BillingWithDoctor(Billing):
     doctor: Doctor
+
+class BillingsWithDoctorList(BaseModel):
+    detail: str = "Billings gotten"
+    billings: list[BillingWithDoctor]

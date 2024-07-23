@@ -8,6 +8,7 @@ from ai_health.root.database import async_session
 
 from ai_health.database.orms.auth_orm import User as UserDB
 from ai_health.database.orms.visits_orm import Visit as VisitDB
+from ai_health.database.orms.billing_orm import Billing as BillingDB
 from ai_health.database.orms.medication_n_dosage_orm import Medication as MedicationDB, Appointment as AppointmentDB
 from ai_health.services.utils.exceptions import NotFoundException, RecordExistsException, ServiceException
 
@@ -131,6 +132,9 @@ async def get_user_with_id_and_relations(user_id: str):
                 ),
                 joinedload(UserDB.medications).options(
                     joinedload(MedicationDB.doctor),
+                ),
+                joinedload(UserDB.billings).options(
+                    joinedload(BillingDB.doctor),
                 ),
             )
         )

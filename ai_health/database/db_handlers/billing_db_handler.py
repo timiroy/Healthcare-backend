@@ -67,3 +67,17 @@ async def delete_billing(billing_id: str):
         stmt = delete(BillingDB).where(BillingDB.billing_id == billing_id)
         result = await session.execute(stmt)
         return result.rowcount > 0
+
+
+async def get_billings(user_id: str):
+    async with async_session() as session:
+        stmt = (
+            select(BillingDB)
+            .where(BillingDB.patient_id == user_id)
+            .options(
+                joinedload(BillingDB.doctor),
+            )
+        )
+        result = (await session.execute(stmt)).unique().scalars().all()
+
+        return [BillingWithDoctor.model_validate(x) for x in result]
