@@ -21,8 +21,8 @@ class Visit(AbstractBase):
     vistor_name: Mapped[str]
     visitor_relationship: Mapped[str]
 
-    patient_id = mapped_column(ForeignKey("users.user_id", ondelete="CASCADE"))
+    patient_id = mapped_column(ForeignKey("users.user_id", ondelete="CASCADE"), nullable=False)
     patient = relationship("User", back_populates="visits")
 
-    doctor_id: Mapped[UUID] = mapped_column(ForeignKey("doctors.doctor_id", ondelete="CASCADE"))
+    doctor_id: Mapped[UUID] = mapped_column(ForeignKey("doctors.doctor_id", ondelete="CASCADE"), nullable=False)
     doctor: Mapped["Doctor"] = relationship("Doctor", back_populates="visits")

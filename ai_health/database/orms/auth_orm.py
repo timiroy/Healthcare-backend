@@ -6,6 +6,7 @@ from sqlalchemy import Column, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID
 
+from ai_health.database.orms.billing_orm import Billing
 from ai_health.database.orms.medication_n_dosage_orm import Appointment, LabReport, MedicalHistory, Medication
 from ai_health.database.orms.visits_orm import Visit
 from ai_health.root.utils.abstract_base import AbstractBase
@@ -36,3 +37,4 @@ class User(AbstractBase):
     appointments: Mapped[list["Appointment"]] = relationship("Appointment", back_populates="patient")
     lab_reports: Mapped[list["LabReport"]] = relationship("LabReport", back_populates="patient")
     medical_history: Mapped[list["MedicalHistory"]] = relationship("MedicalHistory", back_populates="patient")
+    billings: Mapped[list["Billing"]] = relationship("Billing", back_populates="patient")

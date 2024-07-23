@@ -9,6 +9,7 @@ from ai_health.database.orms.auth_orm import User
 from ai_health.database.orms.doctor_orm import Doctor   
 from ai_health.database.orms.medication_n_dosage_orm import Medication, Appointment, LabReport, MedicalHistory
 from ai_health.database.orms.visits_orm import Visit
+from ai_health.database.orms.billing_orm import Billing
 
 from alembic import context
 
