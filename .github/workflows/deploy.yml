@@ -16,9 +16,9 @@ jobs:
       - name: SSH And Deploy
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ env.EC2_IP }}
+          host: ${{ secrets.EC2_IP }}
           username: ubuntu
-          key: ${{ env.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /home/ubuntu/srv/ai_health_backend
             source venv/bin/activate
