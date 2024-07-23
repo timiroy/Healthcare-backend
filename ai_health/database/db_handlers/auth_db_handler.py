@@ -137,5 +137,7 @@ async def get_user_with_id_and_relations(user_id: str):
 
         if result is None:
             raise NotFoundException(message=f"Couldnt find user with user_id {user_id}")
+        
+        print(f"This is teh result {result}")
 
         return UserWithAllRelations.model_validate(result)
