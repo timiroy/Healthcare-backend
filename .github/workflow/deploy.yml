@@ -1,0 +1,27 @@
+name: AI Health Backend Service
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  Staging-PR-nd-Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Now Deploying.
+        run: echo "Deploying to AWS EC2"
+      - name: SSH And Deploy
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ env.EC2_IP }}
+          username: ubuntu
+          key: ${{ env.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/ubuntu/srv/ai_health_backend
+            source venv/bin/activate
+            make update_app
+
+      - run: echo "Deployment completed."
