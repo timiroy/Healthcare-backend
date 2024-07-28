@@ -272,13 +272,3 @@ If something goes wrong, check the logs for debugging:
 sudo journalctl -u backend.service
 sudo tail -f /var/log/nginx/error.log
 ```
-
-#### Basic Troubleshooting Tips
-
-- **Permission Issues:** Ensure the service user has the correct permissions for the files and directories.
-- **Database Connection:** Check your PostgreSQL connection string and make sure the database and user are correctly set up.
-- **Firewall:** Ensure the firewall is not blocking necessary ports.
-
----
-
-This documentation covers the essential steps to set up a FastAPI backend on an Ubuntu instance. Make sure to replace placeholder values with your actual configuration details and ensure all commands are executed in the correct order.
