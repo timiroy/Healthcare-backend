@@ -1,6 +1,6 @@
 ### How to deploy the backend to an Ubuntu Machine
 
-Follow this step-by-step guide to set up your FastAPI backend on an Ubuntu instance. This documentation is designed to be comprehensive and beginner-friendly.
+Follow this step-by-step guide to set the FastAPI backend on an Ubuntu instance.
 
 #### 1. Update and Install Dependencies
 
