@@ -173,13 +173,13 @@ Create a configuration file for your FastAPI backend:
 sudo nano /etc/nginx/sites-available/backend.conf
 ```
 
-Add the following configuration:
+Add the following configuration, replacing `<SERVER_IP>` with your server's IP address:
 
 ```nginx
 server {
     listen 80;
     listen 443;
-    server_name api-dev.ai_health.com;
+    server_name <SERVER_IP>;
 
     location / {
         proxy_pass http://localhost:9000;
@@ -242,7 +242,17 @@ You can check the status of the service to ensure it is running:
 sudo systemctl status backend.service
 ```
 
-#### 15. Configure Firewall (Optional)
+#### 15. Run Alembic Migrations
+
+Navigate to your project directory and run Alembic migrations to set up your database schema:
+
+```bash
+cd /home/ubuntu/srv/Healthcare-backend
+source venv/bin/activate
+alembic upgrade head
+```
+
+#### 16. Configure Firewall (Optional)
 
 Ensure your firewall allows traffic on the necessary ports:
 
@@ -254,7 +264,7 @@ sudo ufw allow 6379/tcp
 sudo ufw enable
 ```
 
-#### 16. Checking Logs
+#### 17. Checking Logs
 
 If something goes wrong, check the logs for debugging:
 
@@ -262,3 +272,13 @@ If something goes wrong, check the logs for debugging:
 sudo journalctl -u backend.service
 sudo tail -f /var/log/nginx/error.log
 ```
+
+#### Basic Troubleshooting Tips
+
+- **Permission Issues:** Ensure the service user has the correct permissions for the files and directories.
+- **Database Connection:** Check your PostgreSQL connection string and make sure the database and user are correctly set up.
+- **Firewall:** Ensure the firewall is not blocking necessary ports.
+
+---
+
+This documentation covers the essential steps to set up a FastAPI backend on an Ubuntu instance. Make sure to replace placeholder values with your actual configuration details and ensure all commands are executed in the correct order.
