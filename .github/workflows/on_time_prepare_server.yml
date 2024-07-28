@@ -1,4 +1,4 @@
-name: AI Health Backend Service
+name: AI Health Prepar Backend Service
 on:
   pull_request:
     branches:
